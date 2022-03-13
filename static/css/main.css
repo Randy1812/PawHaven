@@ -1,0 +1,32 @@
+body{
+    font-family: 'Raleway', sans-serif;
+    background: rgb(168, 234, 187);
+    background: linear-gradient(45deg, rgba(168, 234, 187, 1) 0%, rgba(68, 234, 187, 1) 50%, rgba(255, 255, 255, 1) 100%);
+    background-attachment: fixed;
+}
+
+.card {
+    background-color: rgba(8, 14, 44, 1);
+    color: white;
+    border-radius: 30px;
+}
+
+.htext {
+    color:  rgba(8, 14, 44, 1);
+}
+
+header {
+    padding:0px  5px;
+    border-radius: 10px;
+}
+
+.nav-link,.dropdown-item {
+    color: rgba(8, 14, 44, 1);
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.drop {
+    padding: 5px;
+}
+
