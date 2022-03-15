@@ -29,3 +29,12 @@ header {
 .drop {
     padding: 5px;
 }
+
+.hv {
+  transition: all 0.8s;
+}
+
+.hv:hover {
+  transition: all 0.8s;
+  transform: scale(1.05);
+}
