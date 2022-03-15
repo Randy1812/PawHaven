@@ -12,22 +12,54 @@
 </head>
 
 <body>
+
+  <div class="nav sticky-top">
+    <div class="container">
+      <header class="d-flex flex-wrap justify-content-center sticky-top bg-white">
+        <a href="landing.html" class="d-flex align-items-center me-md-auto text-dark text-decoration-none">
+          <img src="..\static\images\logo.jpg" height="60px" width="60px" style="border-radius:50%" class="m-2 image-fluid">
+          <span class="fs-2 fw-bold htext" style="margin-left:10px" ;>PawHaven</span>
+        </a>
+
+        <ul class="nav nav-pills m-3">
+          <li class="nav-item"><a href="userdash.html" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+        </ul>
+        <div class="dropdown text-end mt-3">
+          <a href="#" class="d-block link-dark text-decoration-none" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-caret-down fa-2x drop"></i>
+          </a>
+          <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+            <li><a class="dropdown-item" href="userprofile.html">Profile</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="landing.html">Sign out</a></li>
+          </ul>
+        </div>
+      </header>
+    </div>
+  </div>
   <div class="container d-flex flex-column justify-items-center mx-auto">
-    <div class="px-4 py-5 my-5 text-center">
+    <div class="px-4 py-5 text-center">
       <h1 class="htext display-3  p-2">Create Your Post</h1>
     </div>
     <div class="container-fluid    text-center mx-auto my-5">
       <div class="card w-75 mx-auto p-5">
         <form>
           <div class="row mb-3">
-            <label for="title" class="col-sm-4 col-form-label"><h5>Title</h5></label>
+            <label for="title" class="col-sm-4 col-form-label">
+              <h5>Title</h5>
+            </label>
             <div class="col-sm-8">
               <input type="text" class="form-control" id="title" placeholder="Title">
             </div>
           </div>
 
           <div class="row mb-3">
-            <label for="content" class="col-sm-4 col-form-label"><h5>Content</h5></label>
+            <label for="content" class="col-sm-4 col-form-label">
+              <h5>Content</h5>
+            </label>
             <div class="col-sm-8">
               <!-- <input type="text" class="form-control" id="content"> -->
               <textarea class="rounded" name="content" id="content" rows="8" cols="67"></textarea>
