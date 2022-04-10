@@ -13,7 +13,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
-    <link href="..\static\css\main.css" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static',filename='css/main.css') }}" rel="stylesheet" type="text/css">
 
 </head>
 
@@ -24,7 +24,7 @@
                 <h1>Register Account</h1>
             </div>
             <div class="form-content">
-                <form>
+                <form method="post" action="{{ url_for('') }}">
                     <div class="form-group"><label for="fname">First Name</label><input type="text" id="fname"
                             name="fname" required="required" /></div>
                     <div class="form-group"><label for="lname">Last Name</label><input type="text" id="lname"
@@ -42,7 +42,7 @@
                     <div class="form-group"><label for="cpassword">Confirm Password</label><input type="password"
                             id="cpassword" name="cpassword" required="required" /></div>
                     <div class="form-group"><button type="submit">Register</button></div>
-                    <a class="smlink" href="login.html">Already Registered?</a>
+                    <a class="smlink" href="{{url_for('login')}}">Already Registered?</a>
                 </form>
             </div>
         </div>

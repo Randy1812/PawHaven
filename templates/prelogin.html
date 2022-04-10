@@ -10,7 +10,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
     rel="stylesheet">
-  <link href="..\static\css\main.css" rel="stylesheet" type="text/css">
+  <link href="{{ url_for('static',filename='css/main.css') }}" rel="stylesheet" type="text/css">
 
 </head>
 
@@ -24,7 +24,7 @@
           <h5 class="card-title display-6 lead fw-bolder">Adopter</h5>
           <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.</p>
-          <a href="register.html" class="stretched-link"></a>
+          <a href="{{ url_for('register',type='adopter') }}" class="stretched-link"></a>
         </div>
       </div>
       <div class="card p-5 m-4 hv" style="border-radius: 20px;">
@@ -32,7 +32,7 @@
         <div class="card-body">
           <h5 class="card-title display-6 lead fw-bolder">Shelter Owner</h5>
           <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-          <a href="register.html" class="stretched-link"></a>
+          <a href="{{ url_for('register',type='owner') }}" class="stretched-link"></a>
         </div>
       </div>
       <div class="card p-5 m-4 hv" style="border-radius: 20px;">
@@ -41,7 +41,7 @@
           <h5 class="card-title display-6 lead fw-bolder">Admin</h5>
           <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
             content. This card has even longer content than the first to show that equal height action.</p>
-          <a href="register.html" class="stretched-link"></a>
+          <a href="{{ url_for('register',type='admin') }}" class="stretched-link"></a>
         </div>
       </div>
     </div>
