@@ -23,7 +23,7 @@
                 <h1>Account Login</h1>
             </div>
             <div class="form-content">
-                <form action="userdash.html">
+                <form action="{{ url_for('validate') }}" method="post">
                     <div class="form-group">
                         <label for="username">Username</label><input type="text" id="username" name="username"
                             required="required" />
