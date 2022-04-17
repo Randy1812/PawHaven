@@ -113,13 +113,13 @@ def adduser():
             db.session.add(new_user)
             db.session.commit()
             user = new_user
-            data = ['Success!!', "Your account has been created successfully!!", 'Profile']
-            if type == "adopter":
-                data.append('user')
-            elif type == "owner":
-                data.append('shelter')
-            elif type == "admin":
-                data.append('admin')
+            data = ['Success!!', "Your account has been created successfully!!", 'Profile', type]
+            # if type == "adopter":
+            #     data.append('user')
+            # elif type == "owner":
+            #     data.append('shelter')
+            # elif type == "admin":
+            #     data.append('admin')
             return render_template("intermd.html", data=data)
 
 
@@ -142,13 +142,13 @@ def validate():
             user_to_verify = User.query.get(usnm)
             if (usnm == user_to_verify.username) and (pswd == user_to_verify.pswd):
                 user = user_to_verify
-                data = ['Success!!', "You have been logged in successfully!!", 'Continue']
-                if user.type == "adopter":
-                    data.append('user')
-                elif user.type == "owner":
-                    data.append('shelter')
-                elif user.type == "admin":
-                    data.append('admin')
+                data = ['Success!!', "You have been logged in successfully!!", 'Continue', user.type]
+                # if user.type == "user":
+                #     data.append('user')
+                # elif user.type == "owner":
+                #     data.append('shelter')
+                # elif user.type == "admin":
+                #     data.append('admin')
                 return render_template("intermd.html", data=data)
             else:
                 data = ['Oops!!', "Your Username and Password Do Not Match", 'Login Screen', 'login']
@@ -164,6 +164,18 @@ def user():
     return render_template("userdash.html", user=user)
 
 
+@app.route('/adopt')
+def adopt():
+    global user
+    return render_template('animals.html')
+
+
+@app.route('/shletersrc')
+def sheltersrc():
+    global user
+    return render_template('shelters.html')
+
+
 @app.route('/shelter')
 def shelter():
     global user
@@ -174,6 +186,31 @@ def shelter():
 def admin():
     global user
     return render_template("admindash.html", user=user)
+
+
+@app.route('/forum')
+def forum():
+    global user
+    return render_template('forum.html')
+
+
+@app.route('/newpost', methods=['GET', 'POST'])
+def newpost():
+    global user
+    if request.method == "GET":
+        return render_template('addpost.html', user=user)
+    elif request.method == "POST":
+        title = request.form.get('title')
+        body = request.form.get('content')
+        by = user.username
+        new_post = Forum(
+            title=title,
+            body=body,
+            by=by
+        )
+        db.session.add(new_post)
+        db.session.commit()
+        return redirect(url_for('forum'))
 
 
 if __name__ == "__main__":

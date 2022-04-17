@@ -5,7 +5,7 @@
 <div class="container-fluid d-flex flex-column align-items-center justify-items-around">
 
   <div class="px-5 py-2 my-5 text-center">
-    <h1 class="display-3 p-2">Welcome Username</h1>
+    <h1 class="display-3 p-2">Welcome {{ user.username }}</h1>
   </div>
 
 
@@ -19,7 +19,7 @@
         <h2>Find Animals to Adopt</h2>
         <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and
           probably just keep going until we run out of words.</p>
-        <a href="animals.html" class="stretched-link"></a>
+        <a href="{{ url_for('adopt') }}" class="stretched-link"></a>
       </div>
 
       <div class="card feature p-5 m-2 mx-auto col-lg-5 text-center hv">
@@ -29,7 +29,7 @@
         <h2>Look For Shelters</h2>
         <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and
           probably just keep going until we run out of words.</p>
-        <a href="shelters.html" class="stretched-link"></a>
+        <a href="{{ url_for('sheltersrc') }}" class="stretched-link"></a>
       </div>
 
     </div>
@@ -42,7 +42,7 @@
         <h2>Community Forum</h2>
         <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and
           probably just keep going until we run out of words.</p>
-        <a href="forum.html" class="stretched-link"></a>
+        <a href="{{ url_for('forum') }}" class="stretched-link"></a>
       </div>
 
       <div class="card feature p-5 m-2 mx-auto col-lg-5 text-center hv">
