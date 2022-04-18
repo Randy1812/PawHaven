@@ -5,7 +5,7 @@
 <div class="container-fluid d-flex flex-column align-items-center justify-items-around">
 
   <div class="px-5 py-2 my-2 text-center">
-    <h1 class="display-3 p-2 my-5">Welcome Shelter</h1>
+    <h1 class="display-3 p-2 my-5">Welcome {{user.username}}</h1>
   </div>
 
   <div class="container px-2 py-3">
@@ -18,19 +18,18 @@
         <h2>Manage Animal Data</h2>
         <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and
           probably just keep going until we run out of words.</p>
-        <a href="manageanimal.html" class="stretched-link"></a>
+        <a href="{{ url_for('animalmng') }}" class="stretched-link"></a>
       </div>
 
 
       <div class="card feature p-5 m-2 mx-auto col-lg-5 text-center hv">
         <div class="feature-icon">
           <i class="fa-solid fa-comment-dots fa-5x py-3"></i>
-          </svg>
         </div>
         <h2>Community Forum</h2>
         <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and
           probably just keep going until we run out of words.</p>
-        <a href="forum.html" class="stretched-link"></a>
+        <a href="{{ url_for('forum') }}" class="stretched-link"></a>
       </div>
 
 

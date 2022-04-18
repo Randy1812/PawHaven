@@ -20,14 +20,24 @@
       </div>
       <div class="form-content">
         <form method="post" action="{{ url_for('adduser') }}">
-          <div class="form-group"><label for="fname">First Name</label><input type="text" id="fname" name="fname" required="required" /></div>
-          <div class="form-group"><label for="lname">Last Name</label><input type="text" id="lname" name="lname" required="required" /></div>
-          <div class="form-group"><label for="num">Age</label><input type="number" id="num" name="num" required="required" /></div>
-          <div class="form-group"><label for="email">Email Address</label><input type="email" id="email" name="email" required="required" /></div>
-          <div class="form-group"><label for="mob">Mobile Number</label><input type="mob" id="mob" name="mob" required="required" /></div>
-          <div class="form-group"><label for="username">Username</label><input type="text" id="username" name="username" required="required" /></div>
-          <div class="form-group"><label for="password">Password</label><input type="password" id="password" name="password" required="required" /></div>
-          <div class="form-group"><label for="cpassword">Confirm Password</label><input type="password" id="cpassword" name="cpassword" required="required" /></div>
+          {% if type!="shelter" %}
+            <div class="form-group"><label for="fname">First Name</label><input type="text" id="fname" name="fname" required="required" /></div>
+            <div class="form-group"><label for="lname">Last Name</label><input type="text" id="lname" name="lname" required="required" /></div>
+            <div class="form-group"><label for="num">Age</label><input type="number" id="num" name="num" required="required" /></div>
+            <div class="form-group"><label for="email">Email Address</label><input type="email" id="email" name="email" required="required" /></div>
+            <div class="form-group"><label for="mob">Mobile Number</label><input type="mob" id="mob" name="mob" required="required" /></div>
+            <div class="form-group"><label for="username">Username</label><input type="text" id="username" name="username" required="required" /></div>
+            <div class="form-group"><label for="password">Password</label><input type="password" id="password" name="password" required="required" /></div>
+            <div class="form-group"><label for="cpassword">Confirm Password</label><input type="password" id="cpassword" name="cpassword" required="required" /></div>
+          {% else %}
+            <div class="form-group"><label for="username">Name Of Shelter</label><input type="text" id="username" name="username" required="required" /></div>
+            <div class="form-group"><label for="fname">First Name Of Manager</label><input type="text" id="fname" name="fname" required="required" /></div>
+            <div class="form-group"><label for="lname">Last Name Of Manager</label><input type="text" id="lname" name="lname" required="required" /></div>
+            <div class="form-group"><label for="email">Email Address</label><input type="email" id="email" name="email" required="required" /></div>
+            <div class="form-group"><label for="mob">Mobile Number</label><input type="mob" id="mob" name="mob" required="required" /></div>
+            <div class="form-group"><label for="password">Password</label><input type="password" id="password" name="password" required="required" /></div>
+            <div class="form-group"><label for="cpassword">Confirm Password</label><input type="password" id="cpassword" name="cpassword" required="required" /></div>
+          {% endif %}
           <input type="hidden" name="type" value="{{type}}">
           <div class="form-group"><button type="submit">Register</button></div>
           <a class="smlink" href="{{url_for('login')}}">Already Registered?</a>

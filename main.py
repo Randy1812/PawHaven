@@ -18,8 +18,8 @@ db = SQLAlchemy(app, session_options={"expire_on_commit": False})
 
 class User(db.Model):
     fname = db.Column(db.String(100), nullable=False)
-    lname = db.Column(db.String(100), nullable=False)
-    age = db.Column(db.Integer, nullable=False)
+    lname = db.Column(db.String(100), nullable=True)
+    age = db.Column(db.Integer, nullable=True)
     eml = db.Column(db.String(100), nullable=False)
     username = db.Column(db.String(100), primary_key=True, nullable=False)
     mob = db.Column(db.Integer, nullable=False)
@@ -86,25 +86,43 @@ def register(type):
 def adduser():
     global user
     if request.method == "POST":
-        fname = request.form.get('fname')
-        lname = request.form.get('lname')
-        age = request.form.get('num')
-        eml = request.form.get('email')
-        username = request.form.get('username')
-        mob = request.form.get('mob')
-        pswd = request.form.get('password')
         type = request.form.get('type')
-        print(fname, lname, age, eml, username, mob, pswd, type)
-        new_user = User(
-            fname=fname,
-            lname=lname,
-            age=age,
-            eml=eml,
-            username=username,
-            mob=mob,
-            pswd=pswd,
-            type=type
-        )
+        if type != "shelter":
+            fname = request.form.get('fname')
+            lname = request.form.get('lname')
+            age = request.form.get('num')
+            eml = request.form.get('email')
+            username = request.form.get('username')
+            mob = request.form.get('mob')
+            pswd = request.form.get('password')
+            print(fname, lname, age, eml, username, mob, pswd, type)
+            new_user = User(
+                fname=fname,
+                lname=lname,
+                age=age,
+                eml=eml,
+                username=username,
+                mob=mob,
+                pswd=pswd,
+                type=type
+            )
+        else:
+            fname = request.form.get('fname')
+            lname = request.form.get('lname')
+            eml = request.form.get('email')
+            username = request.form.get('username')
+            mob = request.form.get('mob')
+            pswd = request.form.get('password')
+            print(fname, lname, eml, username, mob, pswd, type)
+            new_user = User(
+                fname=fname,
+                lname=lname,
+                eml=eml,
+                username=username,
+                mob=mob,
+                pswd=pswd,
+                type=type
+            )
         already_exists = db.session.query(User.username).filter_by(username=username).first() is not None
         if already_exists:
             data = ['Uh Oh!!', "This username already exists.", 'Signup Screen', 'signup']
@@ -167,13 +185,16 @@ def user():
 @app.route('/adopt')
 def adopt():
     global user
-    return render_template('animals.html')
+    all_animals = db.session.query(Animal).all()
+    print(all_animals)
+    return render_template('animals.html', user=user, animals=all_animals)
 
 
 @app.route('/shletersrc')
 def sheltersrc():
     global user
-    return render_template('shelters.html')
+    all_shelters = db.session.query(User).filter_by(type="shelter").all()
+    return render_template('shelters.html', user=user, shelters=all_shelters)
 
 
 @app.route('/shelter')
@@ -191,7 +212,8 @@ def admin():
 @app.route('/forum')
 def forum():
     global user
-    return render_template('forum.html')
+    all_posts = db.session.query(Forum).all()
+    return render_template('forum.html', all_posts=all_posts, user=user)
 
 
 @app.route('/newpost', methods=['GET', 'POST'])
@@ -211,6 +233,90 @@ def newpost():
         db.session.add(new_post)
         db.session.commit()
         return redirect(url_for('forum'))
+
+
+@app.route('/lbp')
+def lbp():
+    global user
+    return render_template("lbp.html", user=user)
+
+
+@app.route('/about')
+def about():
+    global user
+    return render_template('about.html', user=user)
+
+
+@app.route('/profile')
+def profile():
+    global user
+    return render_template('userprofile.html', user=user)
+
+
+@app.route('/editprofile', methods=['GET', 'POST'])
+def editprofile():
+    global user
+    if request.method == "POST":
+        user_update = User.query.get(user.username)
+        user_update.fname = request.form.get('fname')
+        user_update.lname = request.form.get('lname')
+        user_update.age = request.form.get('age')
+        user_update.mob = request.form.get('cnum')
+        user_update.eml = request.form.get('email')
+        user_update.pswd = request.form.get('pswd')
+        db.session.commit()
+        data = ['Success!!', "Your profile has been updated successfully.", 'Dashboard', user.type]
+        return render_template('intermd.html', data=data)
+
+
+@app.route('/animalmng')
+def animalmng():
+    global user
+    animals = db.session.query(Animal).filter_by(shelter=user.username).all()
+    print(animals)
+    return render_template('manageanimal.html', user=user, animals=animals)
+
+
+@app.route('/animaladd', methods=['GET', 'POST'])
+def animaladd():
+    global user
+    if request.method == 'GET':
+        return render_template('animaladd.html', user=user)
+    elif request.method == 'POST':
+        name = request.form.get('name')
+        type = request.form.get('type')
+        breed = request.form.get('breed')
+        age = request.form.get('age')
+        shelter = request.form.get('shelter')
+        con = request.form.get('contact')
+        new_animal = Animal(
+            name=name,
+            type=type,
+            breed=breed,
+            age=age,
+            shelter=shelter,
+            contact=con
+        )
+        db.session.add(new_animal)
+        db.session.commit()
+        data = ['Success!!', "The animal data has been added successfully!!", 'Animal Management', 'animalmng']
+        return render_template('intermd.html', data=data)
+
+
+@app.route('/delanim/<string:name>')
+def delanim(name):
+    global user
+    del_animal = db.session.query(Animal).filter_by(name=name).first()
+    db.session.delete(del_animal)
+    db.session.commit()
+    data = ['Success!!', "The animal data has been deleted successfully!!", 'Animal Management', 'animalmng']
+    return render_template('intermd.html', data=data)
+
+
+@app.route('/logout')
+def logout():
+    data = ['GoodBye', "Thank you for visiting our site", 'Logout', 'home']
+    return render_template("intermd.html", data=data)
 
 
 if __name__ == "__main__":

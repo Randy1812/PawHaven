@@ -8,7 +8,26 @@
 
 <div class="container d-flex flex-column justify-items-center align-items-center">
 
-  <div class="card m-5 p-3" style="width:650px;">
+  {% for animal in animals %}
+    <div class="card m-5 p-3" style="width:650px;">
+      <div class="row g-0">
+        <!-- <div class="col-md-4">
+          <img src="..\static\images\cat.jpg" class="img-fluid rounded" alt="...">
+        </div> -->
+          <div class="card-body text-center">
+            <h5 class="card-title display-5 fw-bold lead">{{animal.name}}</h5>
+            <br>
+            <p class="card-text h4">Type : {{animal.type}}</p>
+            <p class="card-text h4">Breed : {{animal.breed}}</p>
+            <p class="card-text h4">Age : {{animal.age}} Months</p>
+            <p class="card-text h4">Shelter Name: {{animal.shelter}}</p>
+            <p class="card-text h4">Number: {{animal.contact}}</p>
+          </div>
+      </div>
+    </div>
+  {% endfor %}
+
+  <!-- <div class="card m-5 p-3" style="width:650px;">
     <div class="row g-0">
       <div class="col-md-4">
         <img src="..\static\images\cat.jpg" class="img-fluid rounded" alt="...">
@@ -63,7 +82,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <button class="btn btn-lg"> <a class="fw-bold" style="color:white;background-color:rgba(8, 14, 44, 1);text-decoration:none;padding:10px;border-radius:5px;" href="{{ url_for('user') }}">Back To Dashboard</a></button>
   <br>

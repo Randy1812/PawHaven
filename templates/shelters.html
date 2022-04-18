@@ -8,7 +8,19 @@
 
 <div class="container d-flex flex-column justify-items-center align-items-center">
 
+  {% for shelter in shelters %}
   <div class="card m-3 p-4 text-center w-75 ">
+    <div class="card-body">
+      <h5 class="card-title display-5 lead">{{ shelter.username }}</h5>
+      <br>
+      <p class="card-text h5">Contact Number : {{ shelter.mob }}</p>
+      <p class="card-text h5">Contact Email : {{ shelter.eml }}</p>
+      <p class="card-text h5">Manager Name : {{ shelter.fname }} {{ shelter.lname }}</p>
+    </div>
+  </div>
+  {% endfor %}
+
+  <!-- <div class="card m-3 p-4 text-center w-75 ">
     <div class="card-body">
       <h5 class="card-title display-5 lead">Shelter Name</h5>
       <br>
@@ -36,7 +48,7 @@
       <p class="card-text h5">Contact Email : abc@123.com</p>
       <p class="card-text h5">Manager Name : Mr. John Doe</p>
     </div>
-  </div>
+  </div> -->
   <br>
   <br>
   <button class="btn btn-lg"> <a class="fw-bold" style="color:white;background-color:rgba(8, 14, 44, 1);text-decoration:none;padding:10px;border-radius:5px;" href="{{ url_for('user') }}">Back To Dashboard</a></button>

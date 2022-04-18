@@ -14,55 +14,33 @@
     <table class="table table-hover">
       <thead>
         <tr>
-          <th scope="col">#</th>
+          <th scope="col">Name</th>
           <th scope="col">Type</th>
           <th scope="col">Breed</th>
-          <th scope="col">Name</th>
           <th scope="col">Age (Months) </th>
-          <th scope="col">Comments</th>
           <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
+        {% for animal in animals %}
         <tr>
-          <th scope="row">1</th>
-          <td>Dog</td>
-          <td>Border Collie</td>
-          <td>Otto</td>
-          <td>24</td>
-          <td></td>
-          <td><button class = "btn btn-warning">Edit</button>&nbsp
-          <button class = "btn btn-danger">Delete</button>
+          <td>{{animal.name}}</td>
+          <td>{{animal.type}}</td>
+          <td>{{animal.breed}}</td>
+          <td>{{animal.age}}</td>
+          <td>
+            <!-- <button class="btn btn-warning">Edit</button>&nbsp -->
+            <a class="btn btn-danger" href="{{url_for('delanim',name=animal.name)}}">Delete</a>
+            <!-- <button class="btn btn-danger">Delete</button> -->
           </td>
         </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Dog</td>
-          <td>Golden Retriever</td>
-          <td>Timmy</td>
-          <td>60</td>
-          <td></td>
-          <td><button class = "btn btn-warning">Edit</button>&nbsp
-            <button class = "btn btn-danger">Delete</button>
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>Cat</td>
-          <td>Sphinx</td>
-          <td>Hugo</td>
-          <td>6</td>
-          <td></td>
-          <td><button class = "btn btn-warning">Edit</button>&nbsp
-            <button class = "btn btn-danger">Delete</button>
-          </td>
-        </tr>
+        {% endfor %}
       </tbody>
     </table>
 
   </div>
 
-  <a href="animaladd.html"><button class="btn btn-success">Add Entry</button></a>
+  <a href="{{ url_for('animaladd') }}"><button class="btn btn-success">Add Entry</button></a>
 
 </div>
 

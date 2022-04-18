@@ -5,13 +5,13 @@
   <div class="px-4 py-5 my-5 text-center">
     <h1 class="htext display-3  p-2">Forum</h1>
   </div>
-  <div class="card w-75 p-5 mx-auto my-3">
+  <!-- <div class="card w-75 p-5 mx-auto my-3">
     <h4>Post Title</h4>
     <h5>By: User_name</h5>
     <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
       book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more
       recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-    <!-- <button class="btn btn-warning text-white" style="position:relative; left:700px; width:150px;"> Add Comment</button> -->
+    <button class="btn btn-warning text-white" style="position:relative; left:700px; width:150px;"> Add Comment</button>
   </div>
 
   <div class="card w-75 p-5 mx-auto my-3">
@@ -20,7 +20,7 @@
     <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
       book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more
       recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-    <!-- <button class="btn btn-warning text-white" style="position:relative; left:700px; width:150px;"> Add Comment</button> -->
+    <button class="btn btn-warning text-white" style="position:relative; left:700px; width:150px;"> Add Comment</button>
   </div>
 
   <div class="card w-75 p-5 mx-auto my-3">
@@ -29,10 +29,24 @@
     <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
       book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more
       recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-    <!-- <button class="btn btn-warning text-white" style="position:relative; left:700px; width:150px;"> Add Comment</button> -->
+    <button class="btn btn-warning text-white" style="position:relative; left:700px; width:150px;"> Add Comment</button>
+  </div> -->
+
+  {% if all_posts == []: %}
+  <div class="card w-75 p-5 mx-auto my-3 text-center">
+    <h3>There are no posts yet.</h3>
   </div>
+  {% else: %}
+    {% for post in all_posts: %}
+    <div class="card w-75 p-5 mx-auto my-3">
+      <h4>{{ post.title }}</h4>
+      <h5>By: {{ post.by }}</h5>
+      <p>{{ post.body }}</p>
+    </div>
+    {% endfor %}
+  {% endif %}
 
   <p class="mx-auto mt-5" style="font-size:1.2rem;"><a href="{{ url_for('newpost') }}" class="fw-bold btn btn-success">Add Post</a></p>
-  <p class="mx-auto mt-5" style="font-size:1.2rem;"><a href="forum.html" class="fw-bold btn btn-secondary">Go Back</a></p>
+  <p class="mx-auto mt-5" style="font-size:1.2rem;"><a href="{{ url_for(user.type) }}" class="fw-bold btn btn-danger">Go Back</a></p>
 </div>
 {% endblock %}
