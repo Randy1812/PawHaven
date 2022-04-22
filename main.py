@@ -47,6 +47,8 @@ class Shelter(db.Model):
     connum = db.Column(db.Integer, nullable=False)
     coneml = db.Column(db.String(100), nullable=False)
     mannme = db.Column(db.String(100), nullable=False)
+    license = db.Column(db.String(100), nullable=False)
+    paymentid = db.Column(db.String(100), nullable=False)
 
     def __repr__(self):
         return f'<Shelter {self.name}>'
@@ -113,7 +115,9 @@ def adduser():
             username = request.form.get('username')
             mob = request.form.get('mob')
             pswd = request.form.get('password')
-            print(fname, lname, eml, username, mob, pswd, type)
+            lic = request.form.get('license')
+            pid = request.form.get('pid')
+            print(fname, lname, eml, username, mob, pswd, type, lic, pid)
             new_user = User(
                 fname=fname,
                 lname=lname,
@@ -123,12 +127,22 @@ def adduser():
                 pswd=pswd,
                 type=type
             )
+            new_shelter = Shelter(
+                name=username,
+                connum=mob,
+                coneml=eml,
+                mannme=f"{fname} {lname}",
+                license=lic,
+                paymentid=pid
+            )
         already_exists = db.session.query(User.username).filter_by(username=username).first() is not None
         if already_exists:
-            data = ['Uh Oh!!', "This username already exists.", 'Signup Screen', 'signup']
+            data = ['Uh Oh!!', "This username already exists.", 'Signup Screen', 'prelogin']
             return render_template("intermd.html", data=data)
         else:
             db.session.add(new_user)
+            if type == "shelter":
+                db.session.add(new_shelter)
             db.session.commit()
             user = new_user
             data = ['Success!!', "Your account has been created successfully!!", 'Profile', type]
@@ -190,10 +204,11 @@ def adopt():
     return render_template('animals.html', user=user, animals=all_animals)
 
 
-@app.route('/shletersrc')
+@app.route('/sheltersrc')
 def sheltersrc():
     global user
-    all_shelters = db.session.query(User).filter_by(type="shelter").all()
+    # all_shelters = db.session.query(User).filter_by(type="shelter").all()
+    all_shelters = db.session.query(Shelter).all()
     return render_template('shelters.html', user=user, shelters=all_shelters)
 
 
@@ -250,6 +265,9 @@ def about():
 @app.route('/profile')
 def profile():
     global user
+    if user.type == "shelter":
+        shelter = db.session.query(Shelter).filter_by(name=user.username).first()
+        return render_template('userprofile.html', user=user, shelter=shelter)
     return render_template('userprofile.html', user=user)
 
 
@@ -257,13 +275,27 @@ def profile():
 def editprofile():
     global user
     if request.method == "POST":
-        user_update = User.query.get(user.username)
-        user_update.fname = request.form.get('fname')
-        user_update.lname = request.form.get('lname')
-        user_update.age = request.form.get('age')
-        user_update.mob = request.form.get('cnum')
-        user_update.eml = request.form.get('email')
-        user_update.pswd = request.form.get('pswd')
+        if user.type != "shelter":
+            user_update = User.query.get(user.username)
+            user_update.fname = request.form.get('fname')
+            user_update.lname = request.form.get('lname')
+            user_update.age = request.form.get('age')
+            user_update.mob = request.form.get('cnum')
+            user_update.eml = request.form.get('email')
+            user_update.pswd = request.form.get('pswd')
+        else:
+            user_update = User.query.get(user.username)
+            user_update.fname = request.form.get('mannme').split(' ')[0]
+            user_update.lname = request.form.get('mannme').split(' ')[1]
+            user_update.mob = request.form.get('connum')
+            user_update.eml = request.form.get('coneml')
+            user_update.pswd = request.form.get('pswd')
+            shelter_update = Shelter.query.get(user.username)
+            shelter_update.mannme = request.form.get('mannme')
+            shelter_update.connum = request.form.get('connum')
+            shelter_update.coneml = request.form.get('coneml')
+            shelter_update.license = request.form.get('license')
+            shelter_update.paymentid = request.form.get('paymentid')
         db.session.commit()
         data = ['Success!!', "Your profile has been updated successfully.", 'Dashboard', user.type]
         return render_template('intermd.html', data=data)
@@ -310,6 +342,78 @@ def delanim(name):
     db.session.delete(del_animal)
     db.session.commit()
     data = ['Success!!', "The animal data has been deleted successfully!!", 'Animal Management', 'animalmng']
+    return render_template('intermd.html', data=data)
+
+
+@app.route('/adminforum')
+def adminforum():
+    global user
+    all_posts = db.session.query(Forum).all()
+    return render_template("adminforum.html", user=user, posts=all_posts)
+
+
+@app.route('/delpost/<string:title>')
+def delpost(title):
+    global user
+    post_del = db.session.query(Forum).filter_by(title=title).first()
+    db.session.delete(post_del)
+    db.session.commit()
+    data = ['Success!!', "The post has been deleted successfully!!", 'Forum', 'adminforum']
+    return render_template('intermd.html', data=data)
+
+
+@app.route("/mngshelter")
+def mngshelter():
+    global user
+    shelters = db.session.query(Shelter).all()
+    return render_template('manageshelters.html', user=user, shelters=shelters)
+
+
+@app.route('/delshel/<string:name>')
+def delshel(name):
+    global user
+    del_shelter = db.session.query(Shelter).filter_by(name=name).first()
+    del_user = db.session.query(User).filter_by(username=name).first()
+    db.session.delete(del_shelter)
+    db.session.delete(del_user)
+    db.session.commit()
+    data = ['Success!!', "The shelter data has been deleted successfully!!", 'Shelter Management', 'mngshelter']
+    return render_template('intermd.html', data=data)
+
+
+@app.route('/adminanimalmng')
+def adminanimalmng():
+    global user
+    animals = db.session.query(Animal).all()
+    print(animals)
+    return render_template('manageanimal.html', user=user, animals=animals, ret="admin")
+
+
+@app.route('/admindelanim/<string:name>')
+def admindelanim(name):
+    global user
+    del_animal = db.session.query(Animal).filter_by(name=name).first()
+    db.session.delete(del_animal)
+    db.session.commit()
+    data = ['Success!!', "The animal data has been deleted successfully!!", 'Animal Management', 'adminanimalmng']
+    return render_template('intermd.html', data=data)
+
+
+@app.route('/usermng')
+def usermng():
+    global user
+    users = db.session.query(User).filter_by(type="user").all()
+    print(users)
+    return render_template("manageuser.html", user=user, users=users)
+
+
+@app.route('/userdel/<string:usnm>')
+def userdel(usnm):
+    global user
+    del_user = db.session.query(User).filter_by(username=usnm).first()
+    db.session.delete(del_user)
+    db.session.commit()
+    data = ['Success!!', "The user data has been deleted successfully!!", 'User Data Management', 'usermng']
     return render_template('intermd.html', data=data)
 
 

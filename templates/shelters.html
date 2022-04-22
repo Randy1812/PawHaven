@@ -8,17 +8,23 @@
 
 <div class="container d-flex flex-column justify-items-center align-items-center">
 
+  {% if shelters != [] %}
   {% for shelter in shelters %}
   <div class="card m-3 p-4 text-center w-75 ">
     <div class="card-body">
-      <h5 class="card-title display-5 lead">{{ shelter.username }}</h5>
+      <h5 class="card-title display-5 lead">{{ shelter.name }}</h5>
       <br>
-      <p class="card-text h5">Contact Number : {{ shelter.mob }}</p>
-      <p class="card-text h5">Contact Email : {{ shelter.eml }}</p>
-      <p class="card-text h5">Manager Name : {{ shelter.fname }} {{ shelter.lname }}</p>
+      <p class="card-text h5">Contact Number : {{ shelter.connum }}</p>
+      <p class="card-text h5">Contact Email : {{ shelter.coneml }}</p>
+      <p class="card-text h5">Manager Name : {{ shelter.manname }}</p>
     </div>
   </div>
   {% endfor %}
+  {% else %}
+  <div class="card w-75 p-5 mx-auto my-3 text-center">
+    <h3>There are no shelters yet.</h3>
+  </div>
+  {% endif %}
 
   <!-- <div class="card m-3 p-4 text-center w-75 ">
     <div class="card-body">

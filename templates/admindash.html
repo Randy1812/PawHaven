@@ -15,21 +15,19 @@
       <div class="card feature shadow p-5 m-2 mx-auto col col-lg-5 text-center hv">
         <div class="feature-icon">
           <i class="fa-solid fa-comments fa-5x py-3"></i>
-          </svg>
         </div>
         <h2>Manage Community Forum</h2>
         <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-        <a href="forum.html" class="stretched-link"></a>
+        <a href="{{ url_for('adminforum') }}" class="stretched-link"></a>
       </div>
 
       <div class="card feature shadow p-5 m-2 mx-auto col-lg-5 text-center hv">
         <div class="feature-icon">
           <i class="fa-solid fa-house fa-5x py-3"></i>
-          </svg>
         </div>
         <h2>Manage Shelters </h2>
         <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-        <a href="shelterprofile.html" class="stretched-link"></a>
+        <a href="{{ url_for('mngshelter') }}" class="stretched-link"></a>
       </div>
 
     </div>
@@ -38,21 +36,19 @@
       <div class="card feature shadow p-5 m-2 mx-auto col-lg-5 text-center hv">
         <div class="feature-icon">
           <i class="fa-solid fa-dog fa-5x py-3"></i>
-          </svg>
         </div>
         <h2>Manage Animals</h2>
         <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-        <a href="animaladd.html" class="stretched-link"></a>
+        <a href="{{ url_for('adminanimalmng') }}" class="stretched-link"></a>
       </div>
 
       <div class="card feature shadow  p-5 m-2 mx-auto col-lg-5 text-center hv">
         <div class="feature-icon">
           <i class="fa-solid fa-user-group fa-5x py-3"></i>
-          </svg>
         </div>
         <h2>Manage Users</h2>
         <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-        <a href="userprofile.html" class="stretched-link"></a>
+        <a href="{{ url_for('usermng') }}" class="stretched-link"></a>
       </div>
 
     </div>
