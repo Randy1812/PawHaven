@@ -1,1 +1,8 @@
 nltk
+flask
+flask_sqlalchemy 
+flask_bootstrap
+flask_wtf
+wtforms
+wtforms.validators
+requests

@@ -480,10 +480,10 @@ def usermng():
     return render_template("manageuser.html", user=user, users=users)
 
 
-@app.route('/userdel/<string:usnm>')
-def userdel(usnm):
+@app.route('/userdel/<string:name>')
+def userdel(name):
     global user
-    del_user = db.session.query(User).filter_by(username=usnm).first()
+    del_user = db.session.query(User).filter_by(username=name).first()
     db.session.delete(del_user)
     db.session.commit()
     data = ['Success!!', "The user data has been deleted successfully!!", 'User Data Management', 'usermng']
