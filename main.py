@@ -5,13 +5,10 @@ from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, FloatField
 from wtforms.validators import DataRequired, NumberRange
-from dotenv import dotenv_values
 from nltk.sentiment import SentimentIntensityAnalyzer
 
 # import nltk
 # nltk.download('vader_lexicon')
-
-config = dotenv_values(".env")
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///pawhaven.db'
