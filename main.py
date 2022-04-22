@@ -6,6 +6,10 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, FloatField
 from wtforms.validators import DataRequired, NumberRange
 from dotenv import dotenv_values
+from nltk.sentiment import SentimentIntensityAnalyzer
+
+# import nltk
+# nltk.download('vader_lexicon')
 
 config = dotenv_values(".env")
 
@@ -211,27 +215,44 @@ def adopt():
     return render_template('animals.html', user=user, animals=all_animals)
 
 
-@app.route('/sheltersrc')
-def sheltersrc():
-    global user
-    # all_shelters = db.session.query(User).filter_by(type="shelter").all()
-    all_shelters = db.session.query(Shelter).all()
-    return render_template('shelters.html', user=user, shelters=all_shelters)
+def sentiment_scores(sentence):
+    sid_obj = SentimentIntensityAnalyzer()
+    sentiment_dict = sid_obj.polarity_scores(sentence)
+    return sentiment_dict['pos'] * 100
 
 
-@app.route('/test')
-def test():
+def calcrank():
     all_comments = db.session.query(Comments).all()
     all_shelters = db.session.query(Shelter).all()
     shelter_names = [shelter.name for shelter in all_shelters]
-    print(shelter_names)
+    shelter_ranking = []
     for i in shelter_names:
         shelter_comments = []
         for j in all_comments:
             if j.shelternm == i:
                 shelter_comments.append(j.comment)
-        print(i, shelter_comments)
-    return "ok"
+        shelter_score = 0
+        for k in range(len(shelter_comments)):
+            shelter_score += sentiment_scores(shelter_comments[k])
+        shelter_score /= len(shelter_comments)
+        shelter_ranking.append({
+            "sheltername": i,
+            "score": shelter_score
+        })
+    for i in shelter_ranking:
+        shelter_update = db.session.query(Shelter).filter_by(name=i['sheltername']).first()
+        shelter_update.rank = i['score']
+        db.session.commit()
+
+
+@app.route('/sheltersrc')
+def sheltersrc():
+    global user
+    calcrank()
+    # all_shelters = db.session.query(User).filter_by(type="shelter").all()
+    # all_shelters = db.session.query(Shelter).all()
+    all_shelters = Shelter.query.order_by(Shelter.rank.desc()).all()
+    return render_template('shelters.html', user=user, shelters=all_shelters)
 
 
 @app.route('/shelter')
