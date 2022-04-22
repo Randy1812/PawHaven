@@ -9,16 +9,23 @@
 <div class="container d-flex flex-column justify-items-center align-items-center">
 
   {% if shelters != [] %}
-  {% for shelter in shelters %}
+  {% for i in range(shelters|length) %}
   <div class="card m-3 p-4 text-center w-75 ">
     <div class="card-body">
-      <h5 class="card-title display-5 lead">{{ shelter.name }}</h5>
+      <h5 class="card-title display-5 lead">{{ shelters[i].name }}</h5>
       <br>
-      <p class="card-text h5">Contact Number : {{ shelter.connum }}</p>
-      <p class="card-text h5">Contact Email : {{ shelter.coneml }}</p>
-      <p class="card-text h5">Manager Name : {{ shelter.mannme }}</p>
+      <p class="card-text h5">Contact Number : {{ shelters[i].connum }}</p>
+      <p class="card-text h5">Contact Email : {{ shelters[i].coneml }}</p>
+      <p class="card-text h5">Manager Name : {{ shelters[i].mannme }}</p>
+      <!-- <p class="card-text h5">Rank : {{ i+1 }}</p> -->
+      <p class="card-text h5">Rating :
+        {% for i in range((shelters[i].rank/100*4 + 1)|int) %}
+          <i class="fa-solid fa-star"></i>
+        {% endfor %}
+      </p>
     </div>
-    <p class="mx-auto mt-5" style="font-size:1.2rem;"><a href="{{ url_for('addcomment',shelter=shelter.name) }}" class="fw-bold btn btn-success">Add Comment</a></p>
+    <p class="mx-auto mt-5" style="font-size:1.2rem;"><a href="{{ url_for('viewcomment',shelter=shelters[i].name) }}" class="fw-bold btn btn-warning">View Comments</a></p>
+    <p class="mx-auto mt-5" style="font-size:1.2rem;"><a href="{{ url_for('addcomment',shelter=shelters[i].name) }}" class="fw-bold btn btn-success">Add Comment</a></p>
   </div>
   {% endfor %}
   {% else %}

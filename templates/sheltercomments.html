@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %} {% endblock %}
+{% block content %}
+<div class="container d-flex flex-column justify-items-center mx-auto">
+  <div class="px-4 py-5 my-5 text-center">
+    <h1 class="htext display-3  p-2">Reviews of {{ shelter }}</h1>
+  </div>
+
+  {% if all_comments == []: %}
+  <div class="card w-75 p-5 mx-auto my-3 text-center">
+    <h3>There are no reiews yet.</h3>
+  </div>
+  {% else: %}
+    {% for comment in all_comments: %}
+    <div class="card w-75 p-5 mx-auto my-3">
+      <h5>By: {{ comment.user }}</h5>
+      <p>{{ comment.comment }}</p>
+    </div>
+    {% endfor %}
+  {% endif %}
+
+  <!-- <p class="mx-auto mt-5" style="font-size:1.2rem;"><a href="{{ url_for('newpost') }}" class="fw-bold btn btn-success">Add Post</a></p> -->
+  <p class="mx-auto mt-5" style="font-size:1.2rem;"><a href="{{ url_for('addcomment',shelter=shelter) }}" class="fw-bold btn btn-success">Add Comment</a></p>
+  <p class="mx-auto mt-5" style="font-size:1.2rem;"><a href="{{ url_for('sheltersrc') }}" class="fw-bold btn btn-danger">Go Back</a></p>
+</div>
+{% endblock %}

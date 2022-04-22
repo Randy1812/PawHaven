@@ -229,6 +229,8 @@ def calcrank():
             if j.shelternm == i:
                 shelter_comments.append(j.comment)
         shelter_score = 0
+        if len(shelter_comments) == 0:
+            return
         for k in range(len(shelter_comments)):
             shelter_score += sentiment_scores(shelter_comments[k])
         shelter_score /= len(shelter_comments)
@@ -280,6 +282,13 @@ def newcomment():
         db.session.commit()
         data = ['Success!!', "Your comment has been added successfully.", 'Shelters', 'sheltersrc']
         return render_template('intermd.html', data=data)
+
+
+@app.route('/viewcomment/<string:shelter>')
+def viewcomment(shelter):
+    global user
+    all_comments = db.session.query(Comments).filter_by(shelternm=shelter).all()
+    return render_template('sheltercomments.html', user=user, shelter=shelter, all_comments=all_comments)
 
 
 @app.route('/admin')
