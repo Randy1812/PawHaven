@@ -16,8 +16,9 @@
       <br>
       <p class="card-text h5">Contact Number : {{ shelter.connum }}</p>
       <p class="card-text h5">Contact Email : {{ shelter.coneml }}</p>
-      <p class="card-text h5">Manager Name : {{ shelter.manname }}</p>
+      <p class="card-text h5">Manager Name : {{ shelter.mannme }}</p>
     </div>
+    <p class="mx-auto mt-5" style="font-size:1.2rem;"><a href="{{ url_for('addcomment',shelter=shelter.name) }}" class="fw-bold btn btn-success">Add Comment</a></p>
   </div>
   {% endfor %}
   {% else %}

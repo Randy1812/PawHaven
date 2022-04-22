@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %} {% endblock %}
+{% block content %}
+
+<div class="container d-flex flex-column justify-items-center mx-auto">
+  <div class="px-4 py-5 text-center">
+    <h1 class="htext display-3  p-2">Provide Your Review</h1>
+  </div>
+  <div class="container-fluid    text-center mx-auto my-5">
+    <div class="card w-75 mx-auto p-5">
+      <form method="POST" action="{{ url_for('newcomment') }}">
+        <div class="row mb-3">
+          <label for="content" class="col-sm-4 col-form-label">
+            <h5>Comment</h5>
+          </label>
+          <div class="col-sm-8">
+            <!-- <input type="text" class="form-control" id="content"> -->
+            <textarea class="rounded" name="comment" id="comment" rows="8" cols="57"></textarea>
+          </div>
+        </div>
+        <input type="hidden" name="shelter" value="{{ shelter }}">
+        <input class="btn btn-success btn-lg my-3" type="submit" name="Submit" value="Submit">
+        <a href="{{ url_for(user.type) }}" class="btn btn-danger btn-lg my-2">Go Back</a>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

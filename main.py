@@ -49,9 +49,16 @@ class Shelter(db.Model):
     mannme = db.Column(db.String(100), nullable=False)
     license = db.Column(db.String(100), nullable=False)
     paymentid = db.Column(db.String(100), nullable=False)
+    rank = db.Column(db.Integer, nullable=True)
 
     def __repr__(self):
         return f'<Shelter {self.name}>'
+
+
+class Comments(db.Model):
+    user = db.Column(db.String(100), nullable=False)
+    shelternm = db.Column(db.String(100), nullable=False)
+    comment = db.Column(db.String(500), nullable=False, primary_key=True)
 
 
 class Forum(db.Model):
@@ -212,10 +219,49 @@ def sheltersrc():
     return render_template('shelters.html', user=user, shelters=all_shelters)
 
 
+@app.route('/test')
+def test():
+    all_comments = db.session.query(Comments).all()
+    all_shelters = db.session.query(Shelter).all()
+    shelter_names = [shelter.name for shelter in all_shelters]
+    print(shelter_names)
+    for i in shelter_names:
+        shelter_comments = []
+        for j in all_comments:
+            if j.shelternm == i:
+                shelter_comments.append(j.comment)
+        print(i, shelter_comments)
+    return "ok"
+
+
 @app.route('/shelter')
 def shelter():
     global user
     return render_template("shelterdash.html", user=user)
+
+
+@app.route('/addcomment/<string:shelter>')
+def addcomment(shelter):
+    global user
+    return render_template("addcomment.html", user=user, shelter=shelter)
+
+
+@app.route('/newcomment', methods=['GET', 'POST'])
+def newcomment():
+    global user
+    if request.method == "POST":
+        comment = request.form.get('comment')
+        shelter = request.form.get('shelter')
+        usernm = user.username
+        new_comment = Comments(
+            user=usernm,
+            shelternm=shelter,
+            comment=comment
+        )
+        db.session.add(new_comment)
+        db.session.commit()
+        data = ['Success!!', "Your comment has been added successfully.", 'Shelters', 'sheltersrc']
+        return render_template('intermd.html', data=data)
 
 
 @app.route('/admin')
